@@ -1,0 +1,109 @@
+/*=== google fonts ===*/
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&family=Rouge+Script&display=swap');
+
+
+/*=== default style reset ===*/
+* {
+  margin: 0;
+  padding: 0;
+}
+:root {
+  font-size: 0.1vw;
+}
+
+/*=== General Styles ===*/
+body {
+  font-family: "Heebo", sans-serif;
+}
+img {
+  width: 100%;
+}
+h1, h2, p {
+  text-align: center;
+}
+header, footer {
+  background-color: #075070;
+  color: #fff;
+}
+
+
+/*=== utility class ===*/
+.container {
+  width: 82%;
+}
+/*<=> Media Query <=>*/
+@media (min-width: 768px) {
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+
+/*=== Header ===*/
+header {
+  padding: 15rem 0;
+}
+header h1 {
+  font-size: 40rem;
+}
+
+
+/*=== Three Puppies Section ===*/
+.three-puppies {
+  margin: 45rem auto 65rem;
+}
+.missing-puppy {
+  display: none;
+}
+.three-puppies .puppy-1 {
+  margin-bottom: 72rem;
+}
+/*<=> Media Query <=>*/
+@media (min-width: 768px) {
+  .three-puppies .puppy-1 {
+    margin-bottom: 0;
+  }
+  .three-puppies .puppy {
+    width: 32%;
+  }
+  .puppy img {
+    display: block;
+  }
+  .missing-puppy {
+    background-color: #EE4D65;
+    /* font-size: 4vw; */
+    font-size: 38rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+/*=== More Puppies ===*/
+.more-puppies h2 {
+  font-size: 48rem;
+}
+.two-puppies {
+  margin: 52rem auto 92rem;
+}
+.two-puppies .puppy-1 {
+  margin-bottom: 65rem;
+}
+/*<=> Media Query <=>*/
+@media (min-width: 768px) {
+  .two-puppies .puppy-1 {
+    margin-bottom: 0;
+  }
+  .more-puppies .puppy {
+    width: 46%;
+  }
+}
+
+
+/*=== Footer ===*/
+footer {
+  padding: 60rem 0 65rem;
+  font-size: 38rem;
+}
