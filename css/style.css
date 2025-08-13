@@ -1737,10 +1737,8 @@ body.blog-post article img {
     padding: 16px 25px 14px;
     background: #252525;
     border-bottom: 1px solid #333;
-    margin-bottom: 36px;
-    position: fixed;
-    right: 0;
-    left: 0;
+    margin-bottom: -46px;
+    margin-top: 46px;
     z-index: 11;
     top: 0;
   }
