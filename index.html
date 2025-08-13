@@ -97,7 +97,7 @@
   </head>
   <body class="dark home-page">
     <!-- Live Style Switcher Starts - demo only -->
-    <div id="switcher" class="">
+    <div id="switcher" class="z-3">
       <div class="content-switcher">
         <h4>COLOR SWITCHER</h4>
         <ul>
@@ -202,38 +202,6 @@
             </a>
           </li>
         </ul>
-        <h4>TRANSITION DIRECTION</h4>
-        <div class="flex justify-between transition-direction">
-          <div id="cornertopleft">
-            <div class="arrow cornertopleft"></div>
-          </div>
-          <div class="active" id="top">
-            <div class="arrow top"></div>
-          </div>
-          <div id="cornertopright">
-            <div class="arrow cornertopright"></div>
-          </div>
-        </div>
-        <div class="flex justify-between transition-direction">
-          <div id="left">
-            <div class="arrow left"></div>
-          </div>
-          <div id="right">
-            <div class="arrow right"></div>
-          </div>
-        </div>
-        <div class="flex justify-between transition-direction">
-          <div id="cornerbottomleft">
-            <div class="arrow cornerbottomleft"></div>
-          </div>
-          <div id="bottom">
-            <div class="arrow bottom"></div>
-          </div>
-          <div id="cornerbottomright">
-            <div class="arrow cornerbottomright"></div>
-          </div>
-        </div>
-        <span>Navigate between sections to see the effect.</span>
         <div id="hideSwitcher">&times;</div>
       </div>
     </div>
@@ -252,35 +220,26 @@
       <ul id="desktop-nav" class="icon-menu d-none d-lg-block">
         <li class="icon-box desktop-nav-element active">
           <i class="fa fa-home"></i>
-          <div>
-            <h2>Home</h2>
-          </div>
+          <div><h2>Home</h2></div>
         </li>
         <li class="icon-box desktop-nav-element">
           <i class="fa fa-user"></i>
-          <div>
-            <h2>About</h2>
-          </div>
+          <div><h2>About</h2></div>
         </li>
         <li class="icon-box desktop-nav-element">
           <i class="fa fa-briefcase"></i>
-          <div>
-            <h2>Portfolio</h2>
-          </div>
+          <div><h2>Portfolio</h2></div>
         </li>
         <li class="icon-box desktop-nav-element">
           <i class="fa fa-envelope-open"></i>
-          <div>
-            <h2>Contact</h2>
-          </div>
+          <div><h2>Contact</h2></div>
         </li>
         <li class="icon-box desktop-nav-element">
           <i class="fa fa-comments"></i>
-          <div>
-            <h2>Blog</h2>
-          </div>
+          <div><h2>Blog</h2></div>
         </li>
       </ul>
+
       <!-- Fixed Navigation Ends -->
       <!-- Mobile Menu Starts -->
       <nav class="d-block d-lg-none">
@@ -336,7 +295,7 @@
             <div class="color-block d-none d-lg-block"></div>
             <div class="row home-details-container align-items-center">
               <img
-                class="col-lg-4 position-fixed d-none d-lg-block"
+                class="ml-lg-4 col-lg-4 position-absolute d-none d-lg-block"
                 src="img/old-2.png"
                 alt=""
               />

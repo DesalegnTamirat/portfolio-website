@@ -1,20 +1,7 @@
-/**
- * main.js
- * http://www.codrops.com
- *
- * Licensed under the MIT license.
- * http://www.opensource.org/licenses/mit-license.php
- *
- * Copyright 2016, Codrops
- * http://www.codrops.com
- */
+
 (function (window) {
   "use strict";
 
-  // some helper functions
-  /**
-   * from https://davidwalsh.name/javascript-debounce-function
-   */
   function debounce(func, wait, immediate) {
     var timeout;
     return function () {

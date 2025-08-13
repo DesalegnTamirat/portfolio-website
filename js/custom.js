@@ -2,25 +2,25 @@
   "use strict";
 
   /* ----------------------------------------------------------- */
-  /*  FUNCTION TO STOP LOCAL AND YOUTUBE VIDEOS IN SLIDESHOW
-    /* ----------------------------------------------------------- */
-
+  /*  FUNCTION TO STOP LOCAL AND YOUTUBE VIDEOS IN SLIDESHOW     */
+  /* ----------------------------------------------------------- */
   function stop_videos() {
     var video = document.getElementById("video");
-    if (video.paused !== true && video.ended !== true) {
+    if (video && video.paused !== true && video.ended !== true) {
       video.pause();
     }
-    $(".youtube-video")[0].contentWindow.postMessage(
-      '{"event":"command","func":"' + "pauseVideo" + '","args":""}',
-      "*"
-    );
+    if ($(".youtube-video")[0]) {
+      $(".youtube-video")[0].contentWindow.postMessage(
+        '{"event":"command","func":"pauseVideo","args":""}',
+        "*"
+      );
+    }
   }
 
   $(window).on("load", function () {
     /* ----------------------------------------------------------- */
-    /*  PAGE PRELOADER
-        /* ----------------------------------------------------------- */
-
+    /*  PAGE PRELOADER         */
+    /* ----------------------------------------------------------- */
     var preloader = $("#preloader");
     setTimeout(function () {
       preloader.addClass("preloaded");
@@ -29,17 +29,15 @@
 
   $(document).ready(function () {
     /* ----------------------------------------------------------- */
-    /*  STOP VIDEOS
-        /* ----------------------------------------------------------- */
-
+    /*  STOP VIDEOS         */
+    /* ----------------------------------------------------------- */
     $(".slideshow nav span").on("click", function () {
       stop_videos();
     });
 
     /* ----------------------------------------------------------- */
-    /*  MOBILE MENU
-		/* ----------------------------------------------------------- */
-
+    /*  MOBILE MENU 		*/
+    /* ----------------------------------------------------------- */
     $("#mobile-nav li").on("click", function () {
       $("#mobile-nav li").removeClass("active");
       $(this).addClass("active");
@@ -54,29 +52,96 @@
     });
 
     /* ----------------------------------------------------------- */
-    /*  DESKTPOP MENU
-        /* ----------------------------------------------------------- */
+    /*  DESKTOP MENU (Click to scroll) */
+    /* ----------------------------------------------------------- */
+    // ------ config
+    var SCROLL_OFFSET = 50; // adjust for your fixed header height
+    var isAnimatingScroll = false;
 
-    $("#desktop-nav li").on("click", function () {
-      $("#desktop-nav li").removeClass("active");
-      $(this).addClass("active");
-      $("#mobile-nav li").removeClass("active");
-      var index = $(this).index() + 1;
-      $("#mobile-nav li:nth-child(" + index + ")").addClass("active");
+    // ------ CLICK: smooth scroll + set active immediately
+    $("#desktop-nav li").on("click", function (e) {
+      e.preventDefault();
+
+      var $item = $(this);
+      var targetId = $item.find("h2").text().trim().toLowerCase(); // "home", "about", etc.
+      var $target = $("#" + targetId);
+
+      if ($target.length) {
+        // mark active right away
+        $("#desktop-nav li").removeClass("active");
+        $item.addClass("active");
+
+        isAnimatingScroll = true;
+        $("html, body")
+          .stop()
+          .animate(
+            { scrollTop: $target.offset().top - SCROLL_OFFSET },
+            600,
+            function () {
+              // allow scroll spy to resume after animation completes
+              isAnimatingScroll = false;
+            }
+          );
+      }
+    });
+
+    // ------ SCROLL SPY: update active while scrolling
+    // Build a jQuery collection of only the sections that appear in the desktop nav
+    var sectionIds = $("#desktop-nav li")
+      .map(function () {
+        return $(this).find("h2").text().trim().toLowerCase();
+      })
+      .get();
+
+    var $sections = $(
+      sectionIds
+        .map(function (id) {
+          return "#" + id;
+        })
+        .join(",")
+    );
+
+    $(window).on("scroll", function () {
+      if (isAnimatingScroll) return; // ignore while smooth scrolling
+
+      var scrollPos = $(document).scrollTop() + SCROLL_OFFSET + 1; // +1 handles boundary cases
+      var currentId = null;
+
+      $sections.each(function () {
+        var $sec = $(this);
+        var top = $sec.offset().top;
+        var bottom = top + $sec.outerHeight();
+        if (scrollPos >= top && scrollPos < bottom) {
+          currentId = this.id;
+          return false; // break
+        }
+      });
+
+      if (currentId) {
+        $("#desktop-nav li").removeClass("active");
+        $("#desktop-nav li")
+          .filter(function () {
+            return $(this).find("h2").text().trim().toLowerCase() === currentId;
+          })
+          .addClass("active");
+      }
+    });
+
+    // Set the correct item as active on initial load/refresh
+    $(function () {
+      $(window).trigger("scroll");
     });
 
     /* ----------------------------------------------------------- */
-    /*  PORTFOLIO GALLERY
-        /* ----------------------------------------------------------- */
-
+    /*  PORTFOLIO GALLERY */
+    /* ----------------------------------------------------------- */
     if ($(".gridlist").length) {
       new CBPGridGallery(document.getElementById("grid-gallery"));
     }
 
     /* ----------------------------------------------------------- */
-    /*  HIDE HEADER WHEN PORTFOLIO SLIDESHOW OPENED
-        /* ----------------------------------------------------------- */
-
+    /*  HIDE HEADER WHEN PORTFOLIO SLIDESHOW OPENED */
+    /* ----------------------------------------------------------- */
     $(".gridlist figure").on("click", function () {
       $("#navbar-collapse-toggle").addClass("hide-header");
       if ($(window).width() < 992) {
@@ -85,9 +150,8 @@
     });
 
     /* ----------------------------------------------------------- */
-    /*  SHOW HEADER WHEN PORTFOLIO SLIDESHOW CLOSED
-        /* ----------------------------------------------------------- */
-
+    /*  SHOW HEADER WHEN PORTFOLIO SLIDESHOW CLOSED */
+    /* ----------------------------------------------------------- */
     $(".nav-close").on("click", function () {
       $("#navbar-collapse-toggle").removeClass("hide-header");
       $("#trigger-mobile").removeClass("hide-trigger");
@@ -106,9 +170,8 @@
     });
 
     /* ----------------------------------------------------------- */
-    /*  PORTFOLIO DIRECTION AWARE HOVER EFFECT
-        /* ----------------------------------------------------------- */
-
+    /*  PORTFOLIO DIRECTION AWARE HOVER EFFECT */
+    /* ----------------------------------------------------------- */
     var item = $(".gridlist li figure");
     var elementsLength = item.length;
     for (var i = 0; i < elementsLength; i++) {
@@ -118,9 +181,8 @@
     }
 
     /* ----------------------------------------------------------- */
-    /*  AJAX CONTACT FORM
-        /* ----------------------------------------------------------- */
-
+    /*  AJAX CONTACT FORM */
+    /* ----------------------------------------------------------- */
     $("#contactform").on("submit", function () {
       $("#message").text("Sending...");
       var form = $(this);
@@ -140,12 +202,35 @@
       });
       return false;
     });
+
+    /* ----------------------------------------------------------- */
+    /*  SCROLL SPY - Highlight active menu item while scrolling */
+    /* ----------------------------------------------------------- */
+    var sections = $("section[id]");
+    var navItems = $("#desktop-nav li");
+
+    $(window).on("scroll", function () {
+      var scrollPos = $(document).scrollTop() + 60; // adjust for offset
+      sections.each(function () {
+        var top = $(this).offset().top;
+        var bottom = top + $(this).outerHeight();
+        if (scrollPos >= top && scrollPos <= bottom) {
+          var id = $(this).attr("id");
+          navItems.removeClass("active");
+          $("#desktop-nav li")
+            .filter(function () {
+              return $(this).find("h2").text().toLowerCase() === id;
+            })
+            .addClass("active");
+        }
+      });
+    });
   });
 
   $(document).keyup(function (e) {
     /* ----------------------------------------------------------- */
-    /*  KEYBOARD NAVIGATION IN PORTFOLIO SLIDESHOW
-        /* ----------------------------------------------------------- */
+    /*  KEYBOARD NAVIGATION IN PORTFOLIO SLIDESHOW */
+    /* ----------------------------------------------------------- */
     if (e.keyCode === 27) {
       stop_videos();
       $(".close-content").click();
