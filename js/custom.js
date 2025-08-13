@@ -208,13 +208,31 @@
     /* ----------------------------------------------------------- */
     /*  PORTFOLIO DIRECTION AWARE HOVER EFFECT */
     /* ----------------------------------------------------------- */
-    var item = $(".gridlist li figure");
-    var elementsLength = item.length;
-    for (var i = 0; i < elementsLength; i++) {
+    function initPortfolioHover() {
+      var $items = $(".gridlist li figure");
+
+      // Remove existing hoverdir to avoid duplicates
+      $items.off("mouseenter mouseleave");
+
       if ($(window).width() > 991) {
-        $(item[i]).hoverdir();
+        $items.each(function () {
+          $(this).hoverdir();
+        });
       }
     }
+
+    // Run after all images are loaded
+    $(window).on("load", function () {
+      initPortfolioHover();
+    });
+
+    // Re-init on resize (debounced for performance)
+    var resizeTimer;
+    $(window).on("resize", function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initPortfolioHover, 200);
+    });
+
 
     /* ----------------------------------------------------------- */
     /*  AJAX CONTACT FORM */
