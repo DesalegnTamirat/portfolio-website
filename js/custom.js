@@ -38,17 +38,53 @@
     /* ----------------------------------------------------------- */
     /*  MOBILE MENU 		*/
     /* ----------------------------------------------------------- */
-    $("#mobile-nav li").on("click", function () {
-      $("#mobile-nav li").removeClass("active");
-      $(this).addClass("active");
-      $("#desktop-nav li").removeClass("active");
-      var index = $(this).index() + 1;
-      $("#desktop-nav li:nth-child(" + index + ")").addClass("active");
+    // Toggle mobile menu
+    $("#trigger-mobile").on("click", function () {
+      $(this).toggleClass("show-menu"); // animate hamburger to X
+      $("#mobile-nav").toggleClass("show-list"); // slide menu in/out
     });
 
-    $("#trigger-mobile").on("click", function () {
-      $(this).toggleClass("show-menu");
-      $("#mobile-nav").toggleClass("hide-list");
+    // Smooth scroll + close menu on link click
+    $("#mobile-nav li").on("click", function (e) {
+      e.preventDefault();
+
+      // Active link on click
+      $("#mobile-nav li").removeClass("active");
+      $(this).addClass("active");
+
+      // Smooth scroll
+      var targetId = $(this).find("span").text().toLowerCase();
+      var targetElement = $("#" + targetId);
+      if (targetElement.length) {
+        $("html, body").animate(
+          { scrollTop: targetElement.offset().top - 50 },
+          600
+        );
+      }
+
+      // Close mobile menu after click
+      $("#mobile-nav").removeClass("show-list");
+      $("#trigger-mobile").removeClass("show-menu");
+    });
+
+    // Scroll spy for active class
+    $(window).on("scroll", function () {
+      var scrollPos = $(document).scrollTop();
+
+      $("section").each(function () {
+        var sectionTop = $(this).offset().top - 60;
+        var sectionBottom = sectionTop + $(this).outerHeight();
+        var sectionId = $(this).attr("id");
+
+        if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+          $("#mobile-nav li").removeClass("active");
+          $("#mobile-nav li")
+            .filter(function () {
+              return $(this).find("span").text().toLowerCase() === sectionId;
+            })
+            .addClass("active");
+        }
+      });
     });
 
     /* ----------------------------------------------------------- */
