@@ -98,4 +98,58 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // Contact Form AJAX Submission
+  const form = document.getElementById('contact-form');
+  const statusMsg = document.getElementById('form-status');
+  
+  if(form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('form-submit-btn');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = 'Sending... <i class="fa fa-spinner fa-spin"></i>';
+      submitBtn.disabled = true;
+
+      const data = new FormData(form);
+      try {
+        const response = await fetch(form.action, {
+          method: form.method,
+          body: data,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          statusMsg.innerHTML = "Thanks for your message! I'll get back to you soon.";
+          statusMsg.style.color = "#28a745"; // Success green
+          statusMsg.style.display = "block";
+          form.reset();
+        } else {
+          const responseData = await response.json();
+          if (responseData.hasOwnProperty('errors')) {
+            statusMsg.innerHTML = responseData.errors.map(error => error.message).join(", ");
+          } else {
+            statusMsg.innerHTML = "Oops! There was a problem submitting your form";
+          }
+          statusMsg.style.color = "#ff4c4c"; // Error red
+          statusMsg.style.display = "block";
+        }
+      } catch (error) {
+        statusMsg.innerHTML = "Oops! There was a problem submitting your form";
+        statusMsg.style.color = "#ff4c4c";
+        statusMsg.style.display = "block";
+      }
+      
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.disabled = false;
+      
+      // Hide status message after 5 seconds
+      setTimeout(() => {
+        statusMsg.style.display = "none";
+      }, 5000);
+    });
+  }
 });

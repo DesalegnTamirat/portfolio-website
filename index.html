@@ -70,7 +70,7 @@
             <p>I am a graduate of Electrical and Computer Engineering from Addis Ababa University with a deep passion for technology and problem solving.</p>
             <p>My journey started with Python and C++, and through consistent effort, I have grown into a full-stack developer and AI-focused engineer. I specialize in building scalable pipelines using Python and large language models, as well as developing modern web applications using React, Node.js, and TypeScript.</p>
             <p>I have worked on large-scale AI systems that generate complex STEM problems and contributed to building datasets for model evaluation and fine-tuning. Alongside engineering, I actively mentor students in data structures, algorithms, and full-stack development. I enjoy simplifying complex topics and guiding others through their learning journey.</p>
-            <p class="mt-4"><a href="#" class="btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Download CV <i class="fa fa-download"></i></a></p>
+            <p class="mt-4"><a href="data/resume.pdf" target="_blank" class="btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">Download CV <i class="fa fa-download"></i></a></p>
           </div>
         </div>
       </div>
@@ -246,35 +246,36 @@
                 <div class="contact-icon"><i class="fa fa-envelope"></i></div>
                 <div class="contact-text">
                   <h4>Email</h4>
-                  <span>your-email@example.com</span>
+                  <span><a href="mailto:desalegntamirateshetu@gmail.com">desalegntamirateshetu@gmail.com</a></span>
                 </div>
               </li>
               <li>
                 <div class="contact-icon"><i class="fa fa-github"></i></div>
                 <div class="contact-text">
                   <h4>GitHub</h4>
-                  <span>your-github-link</span>
+                  <span><a href="https://github.com/DesalegnTamirat" target="_blank">github.com/DesalegnTamirat</a></span>
                 </div>
               </li>
               <li>
                 <div class="contact-icon"><i class="fa fa-linkedin"></i></div>
                 <div class="contact-text">
                   <h4>LinkedIn</h4>
-                  <span>your-linkedin-link</span>
+                  <span><a href="https://www.linkedin.com/in/desalegn-tamirat-19727520a/" target="_blank">linkedin.com/in/desalegn-tamirat-19727520a/</a></span>
                 </div>
               </li>
             </ul>
           </div>
           
           <div class="contact-form glass-card reveal">
-            <form action="#" method="post">
+            <form id="contact-form" action="https://formspree.io/f/mgopojby" method="POST">
               <div class="form-group">
                 <input type="text" name="name" placeholder="Your Name" required>
                 <input type="email" name="email" placeholder="Your Email" required>
               </div>
               <input type="text" name="subject" placeholder="Your Subject" required>
               <textarea name="message" placeholder="Your Message" required></textarea>
-              <button type="submit" class="btn-primary">Send Message <i class="fa fa-send"></i></button>
+              <button type="submit" id="form-submit-btn" class="btn-primary">Send Message <i class="fa fa-send"></i></button>
+              <p id="form-status" style="margin-top: 1rem; font-weight: 500; display: none; text-align: center;"></p>
             </form>
           </div>
         </div>
